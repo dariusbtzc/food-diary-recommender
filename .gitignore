@@ -1,3 +1,6 @@
 # Local-only project docs
 /CLAUDE.md
 /docs/
+
+# macOS
+.DS_Store
