@@ -1,12 +1,30 @@
 # Secrets
 .env*
+!.env.example
 
 # Dependencies
-node_modules/
+/node_modules
 
 # Local-only project docs
 /CLAUDE.md
 /docs/
+
+# Next.js
+/.next/
+/out/
+/build
+next-env.d.ts
+*.tsbuildinfo
+
+# Testing
+/coverage
+
+# Vercel
+.vercel
+
+# Misc
+*.pem
+npm-debug.log*
 
 # OS
 .DS_Store
