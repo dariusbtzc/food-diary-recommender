@@ -63,6 +63,72 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"meal_attendees": {
+                  Row: {
+                    "meal_id": string,"person_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "meal_id": string,"person_id": string
+                  }
+                  Update: {
+                    "meal_id"?: string,"person_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "meal_attendees_meal_id_fkey"
+      columns: ["meal_id"]
+isOneToOne: false
+      referencedRelation: "meals"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "meal_attendees_person_id_fkey"
+      columns: ["person_id"]
+isOneToOne: false
+      referencedRelation: "people"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"meal_items": {
+                  Row: {
+                    "cuisine": string | null,"dish_name": string,"embedding": string | null,"id": string,"meal_id": string,"tags": (string)[]
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "cuisine"?: string | null,"dish_name": string,"embedding"?: string | null,"id"?: string,"meal_id": string,"tags"?: (string)[]
+                  }
+                  Update: {
+                    "cuisine"?: string | null,"dish_name"?: string,"embedding"?: string | null,"id"?: string,"meal_id"?: string,"tags"?: (string)[]
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "meal_items_meal_id_fkey"
+      columns: ["meal_id"]
+isOneToOne: false
+      referencedRelation: "meals"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"meals": {
+                  Row: {
+                    "eaten_at": string,"id": string,"meal_type": string | null,"owner_id": string,"parse_confidence": number | null,"parse_status": string,"photo_path": string | null,"place_id": string | null,"raw_text": string | null,"total_cost_sgd": number | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "eaten_at"?: string,"id"?: string,"meal_type"?: string | null,"owner_id"?: string,"parse_confidence"?: number | null,"parse_status"?: string,"photo_path"?: string | null,"place_id"?: string | null,"raw_text"?: string | null,"total_cost_sgd"?: number | null
+                  }
+                  Update: {
+                    "eaten_at"?: string,"id"?: string,"meal_type"?: string | null,"owner_id"?: string,"parse_confidence"?: number | null,"parse_status"?: string,"photo_path"?: string | null,"place_id"?: string | null,"raw_text"?: string | null,"total_cost_sgd"?: number | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "meals_place_id_fkey"
+      columns: ["place_id"]
+isOneToOne: false
+      referencedRelation: "places"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"people": {
                   Row: {
                     "created_at": string,"id": string,"is_self": boolean,"name": string,"owner_id": string
@@ -76,6 +142,72 @@ isOneToOne: false
                   }
                   Relationships: [
                     
+                  ]
+                },"place_tags": {
+                  Row: {
+                    "place_id": string,"source": string,"tag": string,"updated_at": string,"value": boolean
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "place_id": string,"source": string,"tag": string,"updated_at"?: string,"value": boolean
+                  }
+                  Update: {
+                    "place_id"?: string,"source"?: string,"tag"?: string,"updated_at"?: string,"value"?: boolean
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "place_tags_place_id_fkey"
+      columns: ["place_id"]
+isOneToOne: false
+      referencedRelation: "places"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"places": {
+                  Row: {
+                    "cuisines": (string)[],"google_place_id": string | null,"id": string,"latitude": number,"longitude": number,"name": string,"osm_id": string | null,"owner_id": string,"price_level": number | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "cuisines"?: (string)[],"google_place_id"?: string | null,"id"?: string,"latitude": number,"longitude": number,"name": string,"osm_id"?: string | null,"owner_id"?: string,"price_level"?: number | null
+                  }
+                  Update: {
+                    "cuisines"?: (string)[],"google_place_id"?: string | null,"id"?: string,"latitude"?: number,"longitude"?: number,"name"?: string,"osm_id"?: string | null,"owner_id"?: string,"price_level"?: number | null
+                  }
+                  Relationships: [
+                    
+                  ]
+                },"ratings": {
+                  Row: {
+                    "meal_id": string,"person_id": string,"score": number,"source": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "meal_id": string,"person_id": string,"score": number,"source": string
+                  }
+                  Update: {
+                    "meal_id"?: string,"person_id"?: string,"score"?: number,"source"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "ratings_attendee_fkey"
+      columns: ["meal_id","person_id"]
+isOneToOne: true
+      referencedRelation: "meal_attendees"
+      referencedColumns: ["meal_id","person_id"]
+    },{
+      foreignKeyName: "ratings_meal_id_fkey"
+      columns: ["meal_id"]
+isOneToOne: false
+      referencedRelation: "meals"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "ratings_person_id_fkey"
+      columns: ["person_id"]
+isOneToOne: false
+      referencedRelation: "people"
+      referencedColumns: ["id"]
+    }
                   ]
                 }
           }
