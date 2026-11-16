@@ -6,8 +6,9 @@ project_id = "food-diary-recommender"
 
 [api]
 enabled = true
-# Port to use for the API URL.
-port = 54321
+# Port to use for the API URL. Moved off the default 54321, which CleanMyMac's
+# HealthMonitor listens on.
+port = 54331
 # Schemas to expose in your API. Tables, views and stored procedures in this schema will get API
 # endpoints. `public` and `graphql_public` schemas are included by default.
 schemas = ["public", "graphql_public"]
@@ -161,7 +162,12 @@ site_url = "http://127.0.0.1:3000"
 # The public URL that Auth serves on. Defaults to the API external URL with `/auth/v1` appended.
 # external_url = ""
 # A list of *exact* URLs that auth providers are permitted to redirect to post authentication.
-additional_redirect_urls = ["https://127.0.0.1:3000"]
+# The magic link returns to /auth/callback (with an optional ?next=). Both dev hosts are
+# listed because session cookies are per host. The hosted list is set in the dashboard.
+additional_redirect_urls = [
+  "http://127.0.0.1:3000/auth/callback**",
+  "http://localhost:3000/auth/callback**",
+]
 # How long tokens are valid for, in seconds. Defaults to 3600 (1 hour), maximum 604,800 (1 week).
 jwt_expiry = 3600
 # JWT issuer URL. If not set, defaults to auth.external_url.

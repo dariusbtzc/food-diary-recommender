@@ -9,6 +9,9 @@ insert into auth.users (id, email) values
   ('a0000000-0000-4000-8000-00000000000a', 'a@test.local'),
   ('b0000000-0000-4000-8000-00000000000b', 'b@test.local');
 
+-- The auth trigger creates a self row per user; replace it with the fixed fixtures below.
+delete from public.people where is_self;
+
 insert into public.people (id, owner_id, name, is_self) values
   ('a1000000-0000-4000-8000-000000000001', 'a0000000-0000-4000-8000-00000000000a', 'A self', true),
   ('a1000000-0000-4000-8000-000000000002', 'a0000000-0000-4000-8000-00000000000a', 'Bob', false),
