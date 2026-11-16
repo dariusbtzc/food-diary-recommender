@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 // Guards for the repo rules in CLAUDE.md that live in config, not code.
@@ -54,5 +54,33 @@ describe("secrets", () => {
       ]),
     );
     expect(deny).not.toContain("Read(./.env*)");
+  });
+});
+
+describe("security", () => {
+  const migrationsDir = "supabase/migrations";
+  const migrations = readdirSync(migrationsDir).filter((f) => f.endsWith(".sql"));
+
+  // Strip comments so commented-out SQL can't satisfy or trip the check.
+  const sqlOf = (file: string) =>
+    readFileSync(`${migrationsDir}/${file}`, "utf8")
+      .replace(/--.*$/gm, "")
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .toLowerCase();
+
+  const tableName = (raw: string) => raw.replace(/"/g, "").replace(/^public\./, "");
+
+  it.each(migrations)("%s enables RLS on every table it creates", (file) => {
+    const sql = sqlOf(file);
+    const created = [
+      ...sql.matchAll(/create\s+table\s+(?:if\s+not\s+exists\s+)?([\w."]+)/g),
+    ].map((m) => tableName(m[1]));
+    const secured = new Set(
+      [
+        ...sql.matchAll(/alter\s+table\s+(?:only\s+)?([\w."]+)\s+enable\s+row\s+level\s+security/g),
+      ].map((m) => tableName(m[1])),
+    );
+
+    expect(created.filter((t) => !secured.has(t))).toEqual([]);
   });
 });
