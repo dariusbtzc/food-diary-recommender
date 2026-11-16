@@ -63,6 +63,20 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"llm_usage": {
+                  Row: {
+                    "day": string,"id": string,"input_tokens": number,"output_tokens": number,"owner_id": string,"purpose": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "day"?: string,"id"?: string,"input_tokens": number,"output_tokens": number,"owner_id"?: string,"purpose": string
+                  }
+                  Update: {
+                    "day"?: string,"id"?: string,"input_tokens"?: number,"output_tokens"?: number,"owner_id"?: string,"purpose"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
                 },"meal_attendees": {
                   Row: {
                     "meal_id": string,"person_id": string
@@ -206,6 +220,46 @@ isOneToOne: false
       columns: ["person_id"]
 isOneToOne: false
       referencedRelation: "people"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"rec_requests": {
+                  Row: {
+                    "budget": string,"created_at": string,"diner_ids": (string)[],"id": string,"latitude": number,"longitude": number,"meal_type": string,"mode": string,"owner_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "budget": string,"created_at"?: string,"diner_ids": (string)[],"id"?: string,"latitude": number,"longitude": number,"meal_type": string,"mode": string,"owner_id"?: string
+                  }
+                  Update: {
+                    "budget"?: string,"created_at"?: string,"diner_ids"?: (string)[],"id"?: string,"latitude"?: number,"longitude"?: number,"meal_type"?: string,"mode"?: string,"owner_id"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
+                },"rec_results": {
+                  Row: {
+                    "chosen": boolean,"explanation": string | null,"group_score": number,"per_person_scores": NonNullable<Json>,"place_id": string,"rank": number,"rejected_reason": string | null,"request_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "chosen"?: boolean,"explanation"?: string | null,"group_score": number,"per_person_scores": NonNullable<Json>,"place_id": string,"rank": number,"rejected_reason"?: string | null,"request_id": string
+                  }
+                  Update: {
+                    "chosen"?: boolean,"explanation"?: string | null,"group_score"?: number,"per_person_scores"?: NonNullable<Json>,"place_id"?: string,"rank"?: number,"rejected_reason"?: string | null,"request_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "rec_results_place_id_fkey"
+      columns: ["place_id"]
+isOneToOne: false
+      referencedRelation: "places"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "rec_results_request_id_fkey"
+      columns: ["request_id"]
+isOneToOne: false
+      referencedRelation: "rec_requests"
       referencedColumns: ["id"]
     }
                   ]
