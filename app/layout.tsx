@@ -30,7 +30,13 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable} ${bricolage.variable} h-full antialiased`}>
+    // Browser extensions (e.g. Scribe) add attributes to <html> before React
+    // hydrates. This ignores attribute differences on <html> only, not its children.
+    <html
+      lang="en"
+      className={`${inter.variable} ${bricolage.variable} h-full antialiased`}
+      suppressHydrationWarning
+    >
       <body className="flex min-h-full flex-col text-body">
         {children}
         <ServiceWorkerRegister />

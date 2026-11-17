@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import { Suspense } from "react";
 
 import { createClient } from "@/lib/supabase/server";
@@ -16,6 +17,10 @@ export default function LogPage() {
 }
 
 async function QuickLog() {
+  // Request time only. Without this, Next's dev prerender check (cookies
+  // available) reaches supabase-js's session-expiry check, which calls
+  // Date.now(), and reports it as an unstable value in a prerender.
+  await connection();
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("people")
