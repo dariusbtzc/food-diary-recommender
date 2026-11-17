@@ -4,6 +4,7 @@ import { PHOTO_EXTENSION } from "../photos/constants";
 
 // Values from the meals schema (task 3) and limits agreed in task 8.
 export const MEAL_TYPES = ["breakfast", "lunch", "dinner", "supper", "snack"] as const;
+export type MealType = (typeof MEAL_TYPES)[number];
 export const MAX_RAW_TEXT_LENGTH = 1000;
 export const MAX_ATTENDEES = 20;
 
