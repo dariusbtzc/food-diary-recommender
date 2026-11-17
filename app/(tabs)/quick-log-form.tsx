@@ -230,10 +230,8 @@ export function QuickLogForm({ people }: { people: Person[] }) {
             <p className="text-label text-pandan">Meal saved.</p>
           ) : null}
         </div>
-
-        <p className="text-center text-meta text-muted">
-          Dishes and place fill in automatically in a few seconds.
-        </p>
+        {/* The design's "Dishes and place fill in automatically in a few seconds."
+            returns in M2, when the parse-meal worker makes it true. */}
       </div>
     </form>
   );
