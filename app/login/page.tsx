@@ -10,11 +10,13 @@ const LINK_ERRORS: Record<string, string> = {
   link: "That sign-in link is invalid or has expired. Send a new one.",
 };
 
-// Minimal until the style-guide tokens land in the app-shell task.
 export default function LoginPage({ searchParams }: PageProps<"/login">) {
   return (
-    <main className="mx-auto flex w-full max-w-sm flex-1 flex-col justify-center gap-6 p-5">
-      <h1 className="text-3xl font-bold">Food Diary</h1>
+    <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center gap-6 px-5">
+      <div className="flex flex-col gap-1">
+        <h1 className="font-display text-display">Food Diary</h1>
+        <p className="text-meta text-muted">Sign in with a link sent to your email.</p>
+      </div>
       {/* searchParams is request data, so it streams in after the static shell. */}
       <Suspense fallback={<LoginForm />}>
         <LoginFormWithParams searchParams={searchParams} />

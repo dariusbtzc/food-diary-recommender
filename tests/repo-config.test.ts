@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 // Guards for the repo rules in CLAUDE.md that live in config, not code.
@@ -82,5 +82,36 @@ describe("security", () => {
     );
 
     expect(created.filter((t) => !secured.has(t))).toEqual([]);
+  });
+});
+
+describe("PWA", () => {
+  const manifest = readJson("public/manifest.webmanifest");
+
+  it("has the manifest fields needed to install", () => {
+    expect(manifest).toMatchObject({
+      name: expect.any(String),
+      short_name: expect.any(String),
+      start_url: "/",
+      display: "standalone",
+    });
+  });
+
+  it("lists 192 and 512 px icons, plus a maskable one, that exist in public/", () => {
+    const icons: { src: string; sizes: string; purpose?: string }[] = manifest.icons;
+    const sizes = icons.map((icon) => icon.sizes);
+    expect(sizes).toEqual(expect.arrayContaining(["192x192", "512x512"]));
+    expect(icons.some((icon) => icon.purpose === "maskable")).toBe(true);
+    for (const icon of icons) expect(existsSync(`public${icon.src}`)).toBe(true);
+  });
+
+  it("serves the service worker from the site root", () => {
+    expect(existsSync("public/sw.js")).toBe(true);
+  });
+
+  it("keeps the manifest and service worker out of the auth proxy", () => {
+    const proxy = readFileSync("proxy.ts", "utf8");
+    expect(proxy).toContain("manifest.webmanifest");
+    expect(proxy).toContain("sw.js");
   });
 });
