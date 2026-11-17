@@ -269,7 +269,9 @@ isOneToOne: false
             [_ in never]: never
           }
           Functions: {
-            [_ in never]: never
+            "create_meal":
+{ Args: { "p_attendee_ids": (string)[],"p_meal_type"?: string,"p_photo_path"?: string,"p_ratings"?: Json,"p_raw_text"?: string }; Returns: string
+                           }
           }
           Enums: {
             [_ in never]: never
