@@ -54,8 +54,8 @@ select ok((select relrowsecurity from pg_class where oid = 'public.meal_items'::
 -- Indexes -----------------------------------------------------------------------
 select has_index('public', 'meals', 'meals_owner_id_eaten_at_idx', 'Diary feed index on meals');
 select has_index('public', 'meal_attendees', 'meal_attendees_person_id_idx', 'Attendees by person index');
-select has_index('public', 'places', 'places_google_place_id_key', 'Unique google_place_id index');
-select index_is_unique('public', 'places', 'places_google_place_id_key', 'google_place_id index is unique');
+select has_index('public', 'places', 'places_owner_id_google_place_id_key', 'Unique (owner_id, google_place_id) index');
+select index_is_unique('public', 'places', 'places_owner_id_google_place_id_key', '(owner_id, google_place_id) index is unique');
 select has_index('public', 'places', 'places_location_idx', 'll_to_earth index on places');
 select index_is_type('public', 'places', 'places_location_idx', 'gist', 'll_to_earth index is GiST');
 select has_index('public', 'meal_items', 'meal_items_embedding_idx', 'Embedding index on meal_items');

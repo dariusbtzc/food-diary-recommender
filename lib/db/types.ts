@@ -125,14 +125,14 @@ isOneToOne: false
                   ]
                 },"meals": {
                   Row: {
-                    "eaten_at": string,"id": string,"meal_type": string | null,"owner_id": string,"parse_confidence": number | null,"parse_status": string,"photo_path": string | null,"place_id": string | null,"raw_text": string | null,"total_cost_sgd": number | null
+                    "eaten_at": string,"edited_at": string | null,"id": string,"meal_type": string | null,"owner_id": string,"parse_confidence": number | null,"parse_status": string,"photo_path": string | null,"place_id": string | null,"raw_text": string | null,"total_cost_sgd": number | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "eaten_at"?: string,"id"?: string,"meal_type"?: string | null,"owner_id"?: string,"parse_confidence"?: number | null,"parse_status"?: string,"photo_path"?: string | null,"place_id"?: string | null,"raw_text"?: string | null,"total_cost_sgd"?: number | null
+                    "eaten_at"?: string,"edited_at"?: string | null,"id"?: string,"meal_type"?: string | null,"owner_id"?: string,"parse_confidence"?: number | null,"parse_status"?: string,"photo_path"?: string | null,"place_id"?: string | null,"raw_text"?: string | null,"total_cost_sgd"?: number | null
                   }
                   Update: {
-                    "eaten_at"?: string,"id"?: string,"meal_type"?: string | null,"owner_id"?: string,"parse_confidence"?: number | null,"parse_status"?: string,"photo_path"?: string | null,"place_id"?: string | null,"raw_text"?: string | null,"total_cost_sgd"?: number | null
+                    "eaten_at"?: string,"edited_at"?: string | null,"id"?: string,"meal_type"?: string | null,"owner_id"?: string,"parse_confidence"?: number | null,"parse_status"?: string,"photo_path"?: string | null,"place_id"?: string | null,"raw_text"?: string | null,"total_cost_sgd"?: number | null
                   }
                   Relationships: [
                     {
@@ -179,14 +179,14 @@ isOneToOne: false
                   ]
                 },"places": {
                   Row: {
-                    "cuisines": (string)[],"google_place_id": string | null,"id": string,"latitude": number,"longitude": number,"name": string,"osm_id": string | null,"owner_id": string,"price_level": number | null
+                    "cuisines": (string)[],"google_place_id": string | null,"id": string,"latitude": number,"longitude": number,"name": string,"osm_id": string | null,"owner_id": string,"price_level": number | null,"refreshed_at": string | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "cuisines"?: (string)[],"google_place_id"?: string | null,"id"?: string,"latitude": number,"longitude": number,"name": string,"osm_id"?: string | null,"owner_id"?: string,"price_level"?: number | null
+                    "cuisines"?: (string)[],"google_place_id"?: string | null,"id"?: string,"latitude": number,"longitude": number,"name": string,"osm_id"?: string | null,"owner_id"?: string,"price_level"?: number | null,"refreshed_at"?: string | null
                   }
                   Update: {
-                    "cuisines"?: (string)[],"google_place_id"?: string | null,"id"?: string,"latitude"?: number,"longitude"?: number,"name"?: string,"osm_id"?: string | null,"owner_id"?: string,"price_level"?: number | null
+                    "cuisines"?: (string)[],"google_place_id"?: string | null,"id"?: string,"latitude"?: number,"longitude"?: number,"name"?: string,"osm_id"?: string | null,"owner_id"?: string,"price_level"?: number | null,"refreshed_at"?: string | null
                   }
                   Relationships: [
                     
@@ -272,8 +272,25 @@ isOneToOne: false
             "create_meal":
 { Args: { "p_attendee_ids": (string)[],"p_meal_type"?: string,"p_photo_path"?: string,"p_ratings"?: Json,"p_raw_text"?: string }; Returns: string
                            },
+"invoke_edge_function":
+{ Args: { "p_body"?: Json,"p_name": string }; Returns: number
+                           },
 "keep_alive":
 { Args: Record<PropertyKey, never>; Returns: boolean
+                           },
+"parse_meal_backstop":
+{ Args: Record<PropertyKey, never>; Returns: number
+                           },
+"parse_queue_delete":
+{ Args: { "p_msg_id": number }; Returns: boolean
+                           },
+"parse_queue_read":
+{ Args: { "p_qty": number,"p_vt_seconds": number }; Returns: {
+              "enqueued_at": string,"message": Json,"msg_id": number,"read_ct": number
+            }[]
+                           },
+"parse_queue_requeue":
+{ Args: { "p_msg_id": number,"p_not_before": string }; Returns: number
                            }
           }
           Enums: {
