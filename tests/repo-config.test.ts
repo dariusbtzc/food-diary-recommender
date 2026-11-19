@@ -60,6 +60,20 @@ describe("runtime boundary", () => {
   });
 });
 
+describe("cuisine list", () => {
+  // String literals inside the exported CUISINES array.
+  const listIn = (file: string) => {
+    const body = readFileSync(file, "utf8").match(/CUISINES = \[([\s\S]*?)\]/)?.[1] ?? "";
+    return [...body.matchAll(/"([^"]+)"/g)].map((m) => m[1]);
+  };
+
+  it("is the same in Node and Deno", () => {
+    const deno = listIn("supabase/functions/_shared/cuisines.ts");
+    expect(deno.length).toBeGreaterThan(0);
+    expect(listIn("lib/cuisines.ts")).toEqual(deno);
+  });
+});
+
 describe("edge functions", () => {
   it("lets Postgres call parse-meal without a user JWT", () => {
     const config = readFileSync("supabase/config.toml", "utf8");

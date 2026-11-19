@@ -10,7 +10,8 @@
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "check:functions": "deno lint --config supabase/functions/deno.json supabase/functions && deno check --config supabase/functions/deno.json supabase/functions",
-    "test:functions": "deno test --config supabase/functions/deno.json --allow-env supabase/functions"
+    "test:functions": "deno test --config supabase/functions/deno.json --allow-env supabase/functions",
+    "test:prompt": "deno run --config supabase/functions/deno.json --env-file=supabase/functions/.env --allow-env --allow-net=api.anthropic.com --allow-read=supabase/functions/parse-meal/golden supabase/functions/parse-meal/golden.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

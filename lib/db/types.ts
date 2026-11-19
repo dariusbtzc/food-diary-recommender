@@ -291,6 +291,9 @@ isOneToOne: false
                            },
 "parse_queue_requeue":
 { Args: { "p_msg_id": number,"p_not_before": string }; Returns: number
+                           },
+"save_meal_parse":
+{ Args: { "p_confidence": number,"p_items": Json,"p_meal_id": string,"p_owner_id": string,"p_place_id": string,"p_status": string,"p_total_cost_sgd": number }; Returns: boolean
                            }
           }
           Enums: {
