@@ -17,9 +17,59 @@ function isGitIgnored(path: string): boolean {
   }
 }
 
+// Every .ts/.tsx file under dir, recursively.
+function sourceFiles(dir: string): string[] {
+  return readdirSync(dir, { recursive: true, encoding: "utf8" })
+    .filter((f) => /\.tsx?$/.test(f))
+    .map((f) => `${dir}/${f}`);
+}
+
+// Module specifiers in import/export-from statements and dynamic imports.
+function importsOf(file: string): string[] {
+  const src = readFileSync(file, "utf8");
+  return [
+    ...src.matchAll(/(?:from\s+|import\s*\(\s*|import\s+)["']([^"']+)["']/g),
+  ].map((m) => m[1]);
+}
+
 describe("runtime boundary", () => {
   it("keeps the Deno functions out of the Next.js type-check", () => {
     expect(readJson("tsconfig.json").exclude).toContain("supabase");
+  });
+
+  it("keeps the Deno functions out of the Next.js lint", () => {
+    expect(readFileSync("eslint.config.mjs", "utf8")).toContain('"supabase/functions/**"');
+  });
+
+  it("never imports Deno function code from Next.js", () => {
+    const nodeFiles = ["app", "lib", "components"].flatMap(sourceFiles).concat("proxy.ts");
+    const offenders = nodeFiles.filter((file) =>
+      // A path into the repo's supabase/ folder, not @supabase/* or @/lib/supabase/*.
+      importsOf(file).some((spec) => /supabase\/functions|^@\/supabase\//.test(spec)),
+    );
+    expect(offenders).toEqual([]);
+  });
+
+  it("never imports Next.js code from the Deno functions", () => {
+    const offenders = sourceFiles("supabase/functions").filter((file) =>
+      importsOf(file).some(
+        (spec) => spec.startsWith("@/") || /(^|\/)(app|lib|components)\//.test(spec),
+      ),
+    );
+    expect(offenders).toEqual([]);
+  });
+});
+
+describe("edge functions", () => {
+  it("lets Postgres call parse-meal without a user JWT", () => {
+    const config = readFileSync("supabase/config.toml", "utf8");
+    expect(config).toMatch(/\[functions\.parse-meal\]\s*\nverify_jwt\s*=\s*false/);
+  });
+
+  it("runs the Deno checks and tests from npm", () => {
+    const scripts = readJson("package.json").scripts;
+    expect(scripts["check:functions"]).toMatch(/deno lint .*&& deno check /);
+    expect(scripts["test:functions"]).toMatch(/^deno test /);
   });
 });
 
@@ -41,6 +91,15 @@ describe("secrets", () => {
       "NEXT_PUBLIC_SUPABASE_URL",
       "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
     ]);
+  });
+
+  it("lists the Edge Function secrets in .env.example", () => {
+    const names = readFileSync(".env.example", "utf8")
+      .split("\n")
+      .map((line) => line.split("=")[0].trim());
+    expect(names).toEqual(
+      expect.arrayContaining(["ANTHROPIC_API_KEY", "GOOGLE_MAPS_API_KEY", "PARSE_WORKER_SECRET"]),
+    );
   });
 
   it("denies Claude Code reads of env files", () => {

@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "check:functions": "deno lint --config supabase/functions/deno.json supabase/functions && deno check --config supabase/functions/deno.json supabase/functions",
+    "test:functions": "deno test --config supabase/functions/deno.json --allow-env supabase/functions"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
