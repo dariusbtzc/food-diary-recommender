@@ -1,13 +1,22 @@
 # Secrets
 .env*
 !.env.example
+*.pem
 
 # Dependencies
 /node_modules
 
 # Local-only project docs
 /CLAUDE.md
+/CLAUDE.local.md
 /docs/
+
+# Claude Code: personal approvals stay local; shared rules are in .claude/settings.json
+.claude/settings.local.json
+
+# Editor: share only the Deno settings
+.vscode/*
+!.vscode/settings.json
 
 # Next.js
 /.next/
@@ -27,7 +36,6 @@ next-env.d.ts
 .vercel
 
 # Misc
-*.pem
 npm-debug.log*
 
 # OS
