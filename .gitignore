@@ -19,6 +19,10 @@ next-env.d.ts
 # Testing
 /coverage
 
+# Deno: only supabase/functions/deno.lock is real; a root one comes from
+# running deno here without --config.
+/deno.lock
+
 # Vercel
 .vercel
 
