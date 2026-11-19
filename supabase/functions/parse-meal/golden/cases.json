@@ -168,87 +168,79 @@
       "photo": "p01.jpg",
       "note": null,
       "names": ["You"],
-      "place_any_of": [],
+      "place_any_of": ["Food Republic"],
       "dish_count": 1,
       "cost": null,
-      "expect_done": false,
-      "todo": "your photo of a hawker plate, no note; set dish_count"
+      "expect_done": true
     },
     {
       "id": "p02-hawker-photo-and-note",
       "photo": "p02.jpg",
-      "note": "TODO",
+      "note": "The Best Satay at Lau Pa Sat",
       "names": ["You"],
-      "place_any_of": ["TODO"],
+      "place_any_of": ["The Best Satay", "The Best Satay at Lau Pa Sat"],
       "dish_count": 1,
       "cost": null,
-      "expect_done": true,
-      "todo": "a hawker photo with a short note naming the stall"
+      "expect_done": true
     },
     {
       "id": "p03-restaurant-photo",
       "photo": "p03.jpg",
-      "note": "TODO",
+      "note": "At Bedrock w/ Jane: Steak, Lamb Chops, Fries, Spinach",
       "names": ["You", "Jane"],
-      "place_any_of": ["TODO"],
-      "dish_count": 2,
+      "place_any_of": ["Bedrock", "Bedrock Bar and Grill", "Bedrock Bar & Grill"],
+      "dish_count": 4,
       "cost": null,
-      "expect_done": true,
-      "todo": "a restaurant meal with several dishes"
+      "expect_done": true
     },
     {
       "id": "p04-chain-packaging",
       "photo": "p04.jpg",
       "note": null,
       "names": ["You"],
-      "place_any_of": ["TODO"],
+      "place_any_of": ["McDonald's", "Macs", "Mac's"],
       "dish_count": 1,
       "cost": null,
-      "expect_done": true,
-      "todo": "a chain meal where the branding is visible, no note"
+      "expect_done": true
     },
     {
       "id": "p05-photo-cost-in-note",
       "photo": "p05.jpg",
-      "note": "TODO",
+      "note": "Pesto Pasta at Asia Square; S$20.80",
       "names": ["You"],
-      "place_any_of": ["TODO"],
+      "place_any_of": [],
       "dish_count": 1,
-      "cost": 0,
-      "expect_done": true,
-      "todo": "a photo with a note that states the price"
+      "cost": 20.80,
+      "expect_done": false
     },
     {
       "id": "p06-photo-several-dishes",
       "photo": "p06.jpg",
-      "note": "TODO",
+      "note": "Uzbek dishes with friends: Plov, Lagman, 3 kinds of dumplings",
       "names": ["You", "Mark", "Priya"],
-      "place_any_of": ["TODO"],
-      "dish_count": 4,
+      "place_any_of": [],
+      "dish_count": 5,
       "cost": null,
-      "expect_done": true,
-      "todo": "a shared table with several dishes"
+      "expect_done": false
     },
     {
       "id": "m1-hosted-text",
-      "note": "TODO",
+      "note": "Salad at Raffles Place, $10",
       "names": ["You"],
-      "place_any_of": ["TODO"],
+      "place_any_of": [],
       "dish_count": 1,
-      "cost": null,
-      "expect_done": true,
-      "todo": "the text-only meal logged in M1 on hosted"
+      "cost": 10,
+      "expect_done": false
     },
     {
       "id": "m1-hosted-photo",
       "photo": "m1-photo.jpg",
-      "note": "TODO",
+      "note": "Tacos, $15",
       "names": ["You"],
-      "place_any_of": ["TODO"],
+      "place_any_of": [],
       "dish_count": 1,
-      "cost": null,
-      "expect_done": true,
-      "todo": "the photo meal logged in M1 on hosted"
+      "cost": 15,
+      "expect_done": false
     }
   ]
 }
